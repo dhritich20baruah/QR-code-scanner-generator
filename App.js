@@ -2,32 +2,57 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { TouchableOpacity } from 'react-native';
 import QRCodeScanner from './components/QRCodeScanner';
+import QRCodeGenerator from './components/QRCodeGenerator';
+import QRScanResults from './components/ScanResult';
+import History from './components/History';
 
-function HomeScreen() {
-  return (
-    <View style={styles.container}>
-      <QRCodeScanner/>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+// function HomeScreen() {
+//   return (
+//     <View>
+//       <QRCodeScanner />
+//       <StatusBar style="auto" />
+//     </View>
+//   );
+// }
 
 const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
 
-function RootStack() {
+//Drawer Navigator for QR code screens
+function QRCodeDrawer() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeScreen} />
-    </Stack.Navigator>
+    <Drawer.Navigator
+      initialRouteName="Scan Code"
+      screenOptions={{
+        drawerStyle: { backgroundColor: "white", width: 240 },
+        drawerLabelStyle: { fontStyle: 16 },
+        drawerActiveBackgroundColor: "black",
+        drawerActiveTintColor: "white",
+        headerShown: true,
+      }}
+    >
+      <Drawer.Screen name="Scan Code" component={QRCodeScanner} />
+      <Drawer.Screen name="History" component={History} />
+      <Drawer.Screen name="Create QR Code" component={QRCodeGenerator} />
+    </Drawer.Navigator>
   );
 }
 
 export default function App() {
   return (
     <NavigationContainer>
-      <RootStack />
+      <Stack.Navigator>
+        <Stack.Screen
+          name="QRCodeScreens"
+          component={QRCodeDrawer}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="Results" component={QRScanResults} />
+      </Stack.Navigator>
+      <StatusBar style='auto' />
     </NavigationContainer>
   );
 }
@@ -35,8 +60,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

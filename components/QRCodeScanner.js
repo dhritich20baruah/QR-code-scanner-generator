@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { View, Text, Button, StyleSheet, TouchableOpacity } from "react-native";
 import { Camera, CameraView } from "expo-camera";
 import { useNavigation } from "@react-navigation/native";
@@ -73,55 +73,48 @@ export function Scanner() {
             dateTime,
             data,
         ]);
-        await navigation.navigate("ScanResult", { qrData: data });
+        await navigation.navigate("Results", { qrData: data });
     };
 
-    return (
-        <View style={StyleSheet.container}>
-            <CameraView
-                onBarcodeScanned={scanned ? undefined : handleScanResult}
-                barcodeScannerSettings={{
-                    barcodeTypes: ["qr", "pdf417"],
-                }}
-                style={StyleSheet.absoluteFillObject}
-                enableTorch={torch}
-            />
-            {scanned && (
-                <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
-            )}
-            <View style={{ flex: 1, margin: 50 }}>
-                <TouchableOpacity style={styles.button} onPress={toggleTorch}>
-                    <Text>
-                        {torch === false ? (
-                            <Ionicons
-                                name="flashlight-outline"
-                                size={30}
-                                color="white"
-                            />
-                        ) : (
-                            <Ionicons
-                                name="flash-off-outline"
-                                size={30}
-                                color="white"
-                                style={styles.btnText}
-                            />
-                        )}
-                    </Text>
-                </TouchableOpacity>
-            </View>
+   return (
+    <View style={styles.container}>
+        <CameraView
+            onBarcodeScanned={scanned ? undefined : handleScanResult}
+            barcodeScannerSettings={{
+                barcodeTypes: ["qr", "pdf417"],
+            }}
+            style={StyleSheet.absoluteFillObject}
+            enableTorch={torch}
+        />
+
+        {scanned && (
+            <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
+        )}
+
+        <View style={styles.overlay}>
+            <TouchableOpacity style={styles.button} onPress={toggleTorch}>
+                {torch ? (
+                    <Ionicons name="flash-off-outline" size={30} color="white" />
+                ) : (
+                    <Ionicons name="flashlight-outline" size={30} color="white" />
+                )}
+            </TouchableOpacity>
         </View>
-    )
+    </View>
+);
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: "column",
-        justifyContent: "center",
+    },
+    overlay: {
+        position: "absolute",
+        bottom: 40,
+        right: 20,
     },
     button: {
-        flex: 1,
-        alignSelf: "flex-end",
         alignItems: "center",
+        justifyContent: "center",
     },
 });
