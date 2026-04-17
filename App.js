@@ -8,6 +8,7 @@ import QRCodeScanner from './components/QRCodeScanner';
 import QRCodeGenerator from './components/QRCodeGenerator';
 import QRScanResults from './components/ScanResult';
 import History from './components/History';
+import "expo-dev-client";
 
 // function HomeScreen() {
 //   return (
