@@ -2,7 +2,7 @@ import { View, Text, Share, TextInput, Button, Alert } from "react-native";
 import { useState, useEffect, useRef } from "react";
 import QRCode from "react-native-qrcode-svg";
 import ViewShot from "react-native-view-shot";
-// import * as MediaLibrary from "expo-media-library";
+import * as MediaLibrary from "expo-media-library";
 
 export default function QRCodeGenerator() {
   const [text, setText] = useState("");
@@ -11,11 +11,11 @@ export default function QRCodeGenerator() {
   const [hasMediaLibraryPermission, setMediaLibraryPermission] = useState();
 
   useEffect(() => {
-    // (async () => {
-    //   const mediaLibraryPermission =
-    //     await MediaLibrary.requestPermissionsAsync();
-    //   setMediaLibraryPermission(mediaLibraryPermission.status === "granted");
-    // })();
+    (async () => {
+      const mediaLibraryPermission =
+        await MediaLibrary.requestPermissionsAsync();
+      setMediaLibraryPermission(mediaLibraryPermission.status === "granted");
+    })();
   }, []);
 
   const generateQR = () => {
@@ -26,22 +26,22 @@ export default function QRCodeGenerator() {
     setQrValue(text);
   };
 
-//   const downloadQRCode = async () => {
-//     try {
-//       if (!viewShotRef.current || !qrValue) {
-//         Alert.alert("Error", "Generate a QR Code First");
-//         return;
-//       }
-//       const uri = await viewShotRef.current.capture();
+  const downloadQRCode = async () => {
+    try {
+      if (!viewShotRef.current || !qrValue) {
+        Alert.alert("Error", "Generate a QR Code First");
+        return;
+      }
+      const uri = await viewShotRef.current.capture();
 
-//       await MediaLibrary.saveToLibraryAsync(uri).then(() => {
-//         Alert.alert("QR code saved to Media Library");
-//       });
-//     } catch (error) {
-//       console.error("Error saving QR Code:", error);
-//       Alert.alert("Error saving QR code: ", error.message);
-//     }
-//   };
+      await MediaLibrary.saveToLibraryAsync(uri).then(() => {
+        Alert.alert("QR code saved to Media Library");
+      });
+    } catch (error) {
+      console.error("Error saving QR Code:", error);
+      Alert.alert("Error saving QR code: ", error.message);
+    }
+  };
 
   function createAnother() {
     setQrValue(null);

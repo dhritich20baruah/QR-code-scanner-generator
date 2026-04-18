@@ -3,21 +3,11 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { TouchableOpacity } from 'react-native';
 import QRCodeScanner from './components/QRCodeScanner';
 import QRCodeGenerator from './components/QRCodeGenerator';
 import QRScanResults from './components/ScanResult';
 import History from './components/History';
 import "expo-dev-client";
-
-// function HomeScreen() {
-//   return (
-//     <View>
-//       <QRCodeScanner />
-//       <StatusBar style="auto" />
-//     </View>
-//   );
-// }
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
